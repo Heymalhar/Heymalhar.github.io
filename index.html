@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Someone Special 💖</title>
+<title>From Malhar</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
@@ -31,7 +31,7 @@ body {
 }
 
 .landing-text {
-    font-size: 16px;
+    font-size: 14px;
     color: #888;
     letter-spacing: 3px;
     opacity: 0;
@@ -71,20 +71,23 @@ body {
     to { transform: translateY(-10vh); }
 }
 
-/* ===== MESSAGE ===== */
+/* ===== MESSAGE (FIXED CENTERING) ===== */
 .message {
     position: absolute;
     width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
     text-align: center;
-    top: 40%;
-    transform: translateY(-50%) scale(0.85);
     opacity: 0;
+    padding: 0 20px;
+    box-sizing: border-box;
     transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .show {
     opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* ===== TEXT STACK ===== */
@@ -92,28 +95,29 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    min-height: 160px;
+    gap: 10px;
+    min-height: 140px;
 }
 
-/* Title */
+/* Title (RESPONSIVE) */
 .message h1 {
     font-family: 'Great Vibes', cursive;
-    font-size: 70px;
+    font-size: clamp(36px, 8vw, 70px);
     color: #ff4da6;
     text-shadow: 0 0 20px rgba(255, 77, 166, 0.4);
 }
 
 /* Lines */
 .message p {
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 18px);
     color: #555;
     margin: 0;
+    max-width: 90%;
 }
 
 /* Reserve space */
 #line1, #line2 {
-    height: 24px;
+    min-height: 22px;
 }
 
 /* Fade lines */
@@ -211,7 +215,6 @@ const name = "Aarav";
 
 createOrbs();
 
-/* FLOW */
 landing.addEventListener("click", startExperience);
 
 function startExperience() {
@@ -224,18 +227,15 @@ function startExperience() {
     }, 800);
 }
 
-/* Stage 1 */
 function stage1() {
     title.innerHTML = "Hey... something special for you 💫";
     setTimeout(stage2, 2200);
 }
 
-/* Stage 2 (Typing Effect) */
 function stage2() {
     typeText(title, `Happy Birthday ${name} 🎉`, 60, stage3);
 }
 
-/* Stage 3 */
 function stage3() {
     line1.innerHTML = "Wishing you a day filled with happiness and magic ✨";
 
@@ -247,7 +247,6 @@ function stage3() {
     setTimeout(stage4, 2600);
 }
 
-/* Stage 4 */
 function stage4() {
     line2.innerHTML = "You make the world brighter just by being in it 💫";
 
@@ -266,7 +265,7 @@ function stage4() {
     }, 6000);
 }
 
-/* Typing Function */
+/* Typing */
 function typeText(element, text, speed, callback) {
     element.innerHTML = "";
     let i = 0;
@@ -278,7 +277,7 @@ function typeText(element, text, speed, callback) {
 
     function type() {
         if (i < text.length) {
-            element.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+            element.insertBefore(document.createTextNode(text[i]), cursor);
             i++;
             setTimeout(type, speed);
         } else {
@@ -295,7 +294,7 @@ function createOrbs() {
         let orb = document.createElement("div");
         orb.classList.add("orb");
 
-        let size = Math.random() * 200 + 100;
+        let size = Math.random() * 150 + 80;
 
         orb.style.width = size + "px";
         orb.style.height = size + "px";
@@ -311,7 +310,7 @@ function createOrbs() {
 
 /* Confetti */
 function startConfetti() {
-    setInterval(() => {
+    let interval = setInterval(() => {
         let c = document.createElement("div");
         c.classList.add("confetti");
 
@@ -328,10 +327,10 @@ function startConfetti() {
 
         document.body.appendChild(c);
 
-        createSparkle(c);
-
         setTimeout(()=>c.remove(),5000);
     },120);
+
+    setTimeout(()=>clearInterval(interval),6000);
 }
 
 /* Mini Burst */
@@ -342,24 +341,12 @@ function createMiniBurst(element) {
         let s = document.createElement("div");
         s.classList.add("sparkle");
 
-        s.style.left = rect.left + rect.width / 2 + "px";
-        s.style.top = rect.top + "px";
+        s.style.left = rect.left + rect.width/2 + (Math.random()*20-10) + "px";
+        s.style.top = rect.top + (Math.random()*10) + "px";
 
         document.body.appendChild(s);
         setTimeout(()=>s.remove(),1000);
     }
-}
-
-/* Sparkles */
-function createSparkle(parent) {
-    let s = document.createElement("div");
-    s.classList.add("sparkle");
-
-    s.style.left = parent.style.left;
-    s.style.top = "50%";
-
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1000);
 }
 
 /* Popper */
@@ -368,8 +355,8 @@ function partyPopperBurst() {
         let p = document.createElement("div");
         p.classList.add("popper-piece");
 
-        p.style.setProperty('--x',(Math.random()-0.5)*400+"px");
-        p.style.setProperty('--y',(Math.random()-0.5)*400+"px");
+        p.style.setProperty('--x',(Math.random()-0.5)*300+"px");
+        p.style.setProperty('--y',(Math.random()-0.5)*300+"px");
 
         p.style.left="50%";
         p.style.top="50%";
