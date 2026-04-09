@@ -2,20 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 <title>From Malhar</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
 <style>
+
 /* ===== GLOBAL ===== */
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
+
     min-height: calc(var(--vh, 1vh) * 100);
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     overflow: hidden;
+
     background: radial-gradient(circle at top, #ffe0f0, #e0c3fc);
 }
 
@@ -31,6 +43,7 @@ body {
     cursor: pointer;
     transition: opacity 0.8s ease;
 }
+
 .landing-text {
     font-size: 14px;
     color: #888;
@@ -38,7 +51,11 @@ body {
     opacity: 0;
     animation: fadeIn 2s ease forwards;
 }
-@keyframes fadeIn { to { opacity: 1; } }
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
 .landing-text::after {
     content: "";
     display: block;
@@ -48,7 +65,11 @@ body {
     margin: 10px auto 0;
     animation: pulse 2s infinite;
 }
-@keyframes pulse { 0%,100% { opacity:0.3; transform:scaleX(0.8); } 50% { opacity:1; transform:scaleX(1); } }
+
+@keyframes pulse {
+    0%,100% { opacity: 0.3; transform: scaleX(0.8); }
+    50% { opacity: 1; transform: scaleX(1); }
+}
 
 /* ===== ORBS ===== */
 .orb {
@@ -58,7 +79,11 @@ body {
     opacity: 0.4;
     animation: floatOrb linear infinite;
 }
-@keyframes floatOrb { from { transform: translateY(120%); } to { transform: translateY(-20%); } }
+
+@keyframes floatOrb {
+    from { transform: translateY(120%); }
+    to { transform: translateY(-20%); }
+}
 
 /* ===== MESSAGE ===== */
 .message {
@@ -69,89 +94,147 @@ body {
     opacity: 0;
     padding: 0 16px;
     transform: scale(0.95);
-    transition: all 1s cubic-bezier(0.22,1,0.36,1);
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.show { opacity:1; transform:scale(1); }
+
+.show {
+    opacity: 1;
+    transform: scale(1);
+}
 
 /* ===== TEXT STACK ===== */
-.text-stack { display:flex; flex-direction:column; align-items:center; gap:10px; min-height:140px; }
-.message h1 {
-    font-family:'Great Vibes', cursive;
-    font-size:clamp(28px,7vw,60px);
-    color:#ff4da6;
-    text-shadow:0 0 20px rgba(255,77,166,0.4);
+.text-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-height: 140px;
 }
-.message p { font-size:clamp(13px,3.8vw,17px); color:#555; margin:0; max-width:90%; }
-#line1, #line2 { min-height:22px; }
-.fade-line { opacity:0; transform:translateY(20px); transition:opacity 1s ease, transform 1s ease; }
-.fade-in { opacity:1; transform:translateY(0); }
+
+.message h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(28px, 7vw, 60px);
+    color: #ff4da6;
+    text-shadow: 0 0 20px rgba(255, 77, 166, 0.4);
+}
+
+.message p {
+    font-size: clamp(13px, 3.8vw, 17px);
+    color: #555;
+    margin: 0;
+    max-width: 90%;
+}
+
+#line1, #line2 {
+    min-height: 22px;
+}
+
+.fade-line {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* Cursor */
-.cursor { display:inline-block; margin-left:4px; animation:blink 1s infinite; }
-@keyframes blink { 0%,100%{opacity:1;}50%{opacity:0;} }
+.cursor {
+    display: inline-block;
+    margin-left: 4px;
+    animation: blink 1s infinite;
+}
 
-/* ===== CONFETTI ===== */
-.confetti { position:fixed; top:-10px; animation:fall linear forwards; }
-@keyframes fall { 0%{transform:translateY(0) rotate(0deg);} 100%{transform:translateY(110vh) rotate(360deg); opacity:0;} }
+@keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ===== CONFETTI (FIXED) ===== */
+.confetti {
+    position: fixed;
+    top: -10px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
 
 /* Sparkle */
-.sparkle { position:absolute; width:3px; height:3px; background:white; border-radius:50%; animation:sparkleFade 1s linear forwards; }
-@keyframes sparkleFade { to{transform:scale(2);opacity:0;} }
+.sparkle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: sparkleFade 1s linear forwards;
+}
+
+@keyframes sparkleFade {
+    to { transform: scale(2); opacity: 0; }
+}
 
 /* Popper */
-.popper-piece { position:absolute; width:6px; height:6px; border-radius:50%; animation:burst 1s ease-out forwards; }
-@keyframes burst { to{transform:translate(var(--x), var(--y)); opacity:0;} }
-
-/* ===== BALLOONS ===== */
-.balloon {
-    position:absolute; bottom:-100px; border-radius:50%; cursor:pointer;
-    display:flex; justify-content:center; align-items:center; font-size:20px; color:white; font-weight:bold;
-    user-select:none; transition:transform 0.2s ease;
+.popper-piece {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: burst 1s ease-out forwards;
 }
-.balloon::after { content:""; position:absolute; width:2px; height:20px; bottom:-20px; background:#444; }
 
-/* Start Game Button */
-#start-btn { margin-top:20px; padding:10px 24px; font-size:16px; font-family:'Poppins',sans-serif; background-color:#ff4da6; color:white; border:none; border-radius:24px; cursor:pointer; transition:transform 0.2s ease, background-color 0.3s ease; }
-#start-btn:hover { transform:scale(1.05); background-color:#ff66b3; }
-
-/* Counter display */
-#balloon-counter {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    color: #ff4da6;
-    background: rgba(255,255,255,0.8);
-    padding: 8px 12px;
-    border-radius: 12px;
-    display: none;
+@keyframes burst {
+    to {
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+    }
 }
 
 /* Mobile optimization */
-@media(max-width:600px){.orb{filter:blur(25px);opacity:0.3;}}
+@media (max-width: 600px) {
+    .orb {
+        filter: blur(25px);
+        opacity: 0.3;
+    }
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="landing" id="landing"><div class="landing-text">tap here</div></div>
+<div class="landing" id="landing">
+    <div class="landing-text">tap here</div>
+</div>
 
 <div class="message" id="message">
     <div class="text-stack">
         <h1 id="title"></h1>
         <p id="line1" class="fade-line"></p>
         <p id="line2" class="fade-line"></p>
-        <button id="start-btn" style="display:none;">Start Balloon Game 🎈</button>
     </div>
 </div>
 
-<div id="balloon-game" style="position:absolute; inset:0; pointer-events:none;"></div>
-<div id="balloon-counter">Popped: 0/0</div>
-
 <script>
+
 /* ===== FIX MOBILE HEIGHT ===== */
-function setRealHeight(){document.documentElement.style.setProperty('--vh',window.innerHeight*0.01+'px');}
-setRealHeight(); window.addEventListener('resize',setRealHeight);
+function setRealHeight() {
+    document.documentElement.style.setProperty(
+        '--vh',
+        window.innerHeight * 0.01 + 'px'
+    );
+}
+setRealHeight();
+window.addEventListener('resize', setRealHeight);
 
 /* ===== ELEMENTS ===== */
 const landing = document.getElementById("landing");
@@ -159,88 +242,168 @@ const message = document.getElementById("message");
 const title = document.getElementById("title");
 const line1 = document.getElementById("line1");
 const line2 = document.getElementById("line2");
-const startBtn = document.getElementById("start-btn");
-const balloonGame = document.getElementById("balloon-game");
-const balloonCounter = document.getElementById("balloon-counter");
 
 const name = "Khushi";
+
 createOrbs();
-landing.addEventListener("click",startExperience);
+
+landing.addEventListener("click", startExperience);
 
 /* ===== FLOW ===== */
-function startExperience(){
-    landing.style.opacity="0";
-    setTimeout(()=>{landing.style.display="none"; message.classList.add("show"); stage1();},800);
+function startExperience() {
+    landing.style.opacity = "0";
+
+    setTimeout(() => {
+        landing.style.display = "none";
+        message.classList.add("show");
+        stage1();
+    }, 800);
 }
-function stage1(){title.innerHTML="Hey... something special for you 💫"; setTimeout(stage2,2200);}
-function stage2(){typeText(title,`Happy Birthday ${name} 🎉`,60,stage3);}
-function stage3(){line1.innerHTML="Wishing you a day filled with happiness and magic ✨"; requestAnimationFrame(()=>{line1.classList.add("fade-in"); createMiniBurst(line1);}); setTimeout(stage4,2600);}
-function stage4(){line2.innerHTML="You make the world brighter just by being in it 💫"; requestAnimationFrame(()=>{line2.classList.add("fade-in"); createMiniBurst(line2);}); setTimeout(()=>{partyPopperBurst(); startConfetti(); startBtn.style.display="inline-block";},400);}
+
+function stage1() {
+    title.innerHTML = "Hey... something special for you 💫";
+    setTimeout(stage2, 2200);
+}
+
+function stage2() {
+    typeText(title, `Happy Birthday ${name} 🎉`, 60, stage3);
+}
+
+function stage3() {
+    line1.innerHTML = "Wishing you a day filled with happiness and magic ✨";
+
+    requestAnimationFrame(() => {
+        line1.classList.add("fade-in");
+        createMiniBurst(line1);
+    });
+
+    setTimeout(stage4, 2600);
+}
+
+function stage4() {
+    line2.innerHTML = "You make the world brighter just by being in it 💫";
+
+    requestAnimationFrame(() => {
+        line2.classList.add("fade-in");
+        createMiniBurst(line2);
+    });
+
+    setTimeout(() => {
+        partyPopperBurst();
+        startConfetti();
+    }, 400);
+
+    setTimeout(() => {
+        message.style.opacity = "0.7";
+    }, 6000);
+}
 
 /* ===== TYPING ===== */
-function typeText(e,t,s,c){e.innerHTML="";let i=0;let cursor=document.createElement("span");cursor.className="cursor";cursor.innerHTML="|";e.appendChild(cursor);function type(){if(i<t.length){e.insertBefore(document.createTextNode(t[i]),cursor);i++;setTimeout(type,s);}else{cursor.remove();if(c)c();}}type();}
+function typeText(element, text, speed, callback) {
+    element.innerHTML = "";
+    let i = 0;
+
+    let cursor = document.createElement("span");
+    cursor.className = "cursor";
+    cursor.innerHTML = "|";
+    element.appendChild(cursor);
+
+    function type() {
+        if (i < text.length) {
+            element.insertBefore(document.createTextNode(text[i]), cursor);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            cursor.remove();
+            if (callback) callback();
+        }
+    }
+    type();
+}
 
 /* ===== ORBS ===== */
-function createOrbs(){for(let i=0;i<6;i++){let o=document.createElement("div");o.classList.add("orb");let size=Math.random()*150+80;o.style.width=size+"px";o.style.height=size+"px";o.style.left=Math.random()*100+"vw";o.style.background=`radial-gradient(circle, rgba(255,192,203,0.6), transparent)`;o.style.animationDuration=(Math.random()*20+10)+"s";document.body.appendChild(o);}}
+function createOrbs() {
+    for (let i = 0; i < 6; i++) {
+        let orb = document.createElement("div");
+        orb.classList.add("orb");
 
-/* ===== CONFETTI ===== */
-function startConfetti(){let interval=setInterval(()=>{let c=document.createElement("div");c.classList.add("confetti");c.style.left=Math.random()*100+"vw";c.style.animationDelay=Math.random()*2+"s";let size=Math.random()*6+4;c.style.width=size+"px";c.style.height=size+"px";c.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;c.style.animationDuration=(Math.random()*3+3)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),6000);},120);setTimeout(()=>clearInterval(interval),6000);}
+        let size = Math.random() * 150 + 80;
+
+        orb.style.width = size + "px";
+        orb.style.height = size + "px";
+        orb.style.left = Math.random() * 100 + "vw";
+        orb.style.background =
+            `radial-gradient(circle, rgba(255,192,203,0.6), transparent)`;
+        orb.style.animationDuration =
+            (Math.random() * 20 + 10) + "s";
+
+        document.body.appendChild(orb);
+    }
+}
+
+/* ===== CONFETTI (FIXED) ===== */
+function startConfetti() {
+    let interval = setInterval(() => {
+        let c = document.createElement("div");
+        c.classList.add("confetti");
+
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.animationDelay = Math.random() * 2 + "s";
+
+        let size = Math.random() * 6 + 4;
+        c.style.width = size + "px";
+        c.style.height = size + "px";
+
+        c.style.backgroundColor =
+            `hsl(${Math.random() * 360},100%,50%)`;
+
+        c.style.animationDuration =
+            (Math.random()*3+3)+"s";
+
+        document.body.appendChild(c);
+
+        setTimeout(()=>c.remove(),6000);
+
+    },120);
+
+    setTimeout(()=>clearInterval(interval),6000);
+}
 
 /* ===== MINI BURST ===== */
-function createMiniBurst(e){let r=e.getBoundingClientRect();for(let i=0;i<10;i++){let s=document.createElement("div");s.classList.add("sparkle");s.style.left=r.left+r.width/2+(Math.random()*20-10)+"px";s.style.top=r.top+(Math.random()*10)+"px";document.body.appendChild(s);setTimeout(()=>s.remove(),1000);}}
+function createMiniBurst(element) {
+    let rect = element.getBoundingClientRect();
 
-function partyPopperBurst(){for(let i=0;i<40;i++){let p=document.createElement("div");p.classList.add("popper-piece");p.style.setProperty('--x',(Math.random()-0.5)*300+"px");p.style.setProperty('--y',(Math.random()-0.5)*300+"px");p.style.left="50%";p.style.top="50%";p.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;document.body.appendChild(p);setTimeout(()=>p.remove(),1000); }}
+    for (let i = 0; i < 10; i++) {
+        let s = document.createElement("div");
+        s.classList.add("sparkle");
 
-/* ===== BALLOON GAME ===== */
-let balloonCount=8, poppedCount=0, balloonTimeout;
-startBtn.addEventListener("click",()=>{
-    startBtn.style.display="none";
-    startBalloonGame();
-});
+        s.style.left = rect.left + rect.width/2 + (Math.random()*20-10) + "px";
+        s.style.top = rect.top + (Math.random()*10) + "px";
 
-function startBalloonGame(){
-    balloonCount=8; poppedCount=0; balloonGame.style.pointerEvents="auto";
-    balloonCounter.style.display="block"; updateCounter();
-    for(let i=0;i<balloonCount;i++){ createBalloon(i); }
-    // Remove all balloons after 1 minute
-    balloonTimeout=setTimeout(endBalloonGame,60000);
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),1000);
+    }
 }
 
-function createBalloon(i){
-    let b=document.createElement("div"); b.classList.add("balloon");
-    let colors=["#ff4da6","#ffb347","#4da6ff","#8cff66"];
-    b.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-    b.style.left=Math.random()*80+"vw"; b.style.bottom="-100px";
-    let duration=Math.random()*6+6;
-    b.style.transition=`bottom ${duration}s linear, transform 0.2s`;
-    b.textContent="🎈";
-    balloonGame.appendChild(b);
-    setTimeout(()=>{b.style.bottom="110vh";},50);
-    b.addEventListener("click",()=>{
-        poppedCount++; createPopEffect(b); b.remove(); updateCounter();
-        if(poppedCount===balloonCount) endBalloonGame();
-    });
+/* ===== POPPER ===== */
+function partyPopperBurst() {
+    for (let i = 0; i < 40; i++) {
+        let p = document.createElement("div");
+        p.classList.add("popper-piece");
+
+        p.style.setProperty('--x',(Math.random()-0.5)*300+"px");
+        p.style.setProperty('--y',(Math.random()-0.5)*300+"px");
+
+        p.style.left="50%";
+        p.style.top="50%";
+        p.style.backgroundColor =
+            `hsl(${Math.random()*360},100%,50%)`;
+
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),1000);
+    }
 }
 
-function updateCounter(){ balloonCounter.textContent=`Popped: ${poppedCount}/${balloonCount}`; }
-
-function createPopEffect(b){
-    for(let i=0;i<15;i++){let p=document.createElement("div");p.classList.add("popper-piece");p.style.setProperty('--x',(Math.random()-0.5)*100+"px");p.style.setProperty('--y',(Math.random()-0.5)*100+"px");p.style.left=b.offsetLeft+b.offsetWidth/2+"px";p.style.top=b.offsetTop+b.offsetHeight/2+"px";p.style.backgroundColor=b.style.backgroundColor;document.body.appendChild(p);setTimeout(()=>p.remove(),800);}
-}
-
-function endBalloonGame(){
-    clearTimeout(balloonTimeout);
-    balloonGame.style.pointerEvents="none";
-    balloonCounter.style.display="none";
-    document.querySelectorAll(".balloon").forEach(b=>b.remove());
-    let congrats=document.createElement("div");
-    congrats.style.position="fixed"; congrats.style.top="50%"; congrats.style.left="50%"; congrats.style.transform="translate(-50%,-50%)";
-    congrats.style.fontFamily="'Great Vibes', cursive"; congrats.style.fontSize="36px"; congrats.style.color="#ff4da6";
-    congrats.style.textAlign="center"; congrats.style.textShadow="0 0 20px rgba(255,77,166,0.4)";
-    congrats.textContent=`You popped ${poppedCount} out of ${balloonCount} balloons! 🎉`;
-    document.body.appendChild(congrats);
-    setTimeout(()=>congrats.remove(),5000);
-}
 </script>
 
 </body>
