@@ -6,19 +6,21 @@
 <title>From Malhar</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
     font-family: 'Poppins', sans-serif;
-    min-height: calc(var(--vh, 1vh) * 100);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     background: radial-gradient(circle at top, #ffe0f0, #e0c3fc);
+    overflow-x: hidden; /* prevent horizontal scroll */
+    position: relative;
 }
+
 .landing {
-    position: fixed;
+    position: absolute;
     inset: 0;
     background: radial-gradient(circle at top, #fdfbfb, #ebedee);
     display: flex;
@@ -27,9 +29,12 @@ body {
     z-index: 10;
     cursor: pointer;
     transition: opacity 0.8s ease;
+    width: 100%;
+    padding: 0 10px;
 }
+
 .landing-text {
-    font-size: 14px;
+    font-size: clamp(12px, 4vw, 14px);
     color: #888;
     letter-spacing: 3px;
     opacity: 0;
@@ -54,12 +59,14 @@ body {
     filter: blur(40px);
     opacity: 0.4;
     animation: floatOrb linear infinite;
+    max-width: 150px;
+    max-height: 150px;
 }
 @keyframes floatOrb { from { transform: translateY(120%); } to { transform: translateY(-20%); } }
 
 .message {
     position: relative;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     text-align: center;
     opacity: 0;
@@ -99,7 +106,7 @@ body {
 
 .balloon {
     position:absolute; bottom:-100px; border-radius:50%; cursor:pointer;
-    display:flex; justify-content:center; align-items:center; font-size:clamp(16px,4vw,24px); color:white; font-weight:bold;
+    display:flex; justify-content:center; align-items:center; font-size:clamp(16px,6vw,24px); color:white; font-weight:bold;
     user-select:none; transition:transform 0.2s ease;
 }
 .balloon::after { content:""; position:absolute; width:2px; height:20px; bottom:-20px; background:#444; }
@@ -128,11 +135,21 @@ body {
     display: none;
 }
 
+#balloon-game {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 @media(max-width:600px){
-    .orb{filter:blur(25px);opacity:0.3;}
-    .balloon { font-size: clamp(14px,5vw,20px); }
+    .orb{ filter:blur(25px); opacity:0.3; }
+    .balloon { font-size: clamp(14px,8vw,20px); }
     #start-btn { padding:8px 16px; font-size:14px; }
     #balloon-counter { font-size:14px; padding:5px 8px; }
+    .message { padding: 0 12px; }
 }
 </style>
 </head>
@@ -149,7 +166,7 @@ body {
     </div>
 </div>
 
-<div id="balloon-game" style="position:absolute; inset:0; pointer-events:none;"></div>
+<div id="balloon-game"></div>
 <div id="balloon-counter">Popped: 0/0</div>
 
 <script>
@@ -181,7 +198,7 @@ function typeText(e,t,s,c){e.innerHTML="";let i=0;let cursor=document.createElem
 function createOrbs(){for(let i=0;i<6;i++){let o=document.createElement("div");o.classList.add("orb");let size=Math.random()*150+80;o.style.width=size+"px";o.style.height=size+"px";o.style.left=Math.random()*100+"vw";o.style.background=`radial-gradient(circle, rgba(255,192,203,0.6), transparent)`;o.style.animationDuration=(Math.random()*20+10)+"s";document.body.appendChild(o);}}
 function startConfetti(){let interval=setInterval(()=>{let c=document.createElement("div");c.classList.add("confetti");c.style.left=Math.random()*100+"vw";c.style.animationDelay=Math.random()*2+"s";let size=Math.random()*6+4;c.style.width=size+"px";c.style.height=size+"px";c.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;c.style.animationDuration=(Math.random()*3+3)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),6000);},120);setTimeout(()=>clearInterval(interval),6000);}
 function createMiniBurst(e){let r=e.getBoundingClientRect();for(let i=0;i<10;i++){let s=document.createElement("div");s.classList.add("sparkle");s.style.left=r.left+r.width/2+(Math.random()*20-10)+"px";s.style.top=r.top+(Math.random()*10)+"px";document.body.appendChild(s);setTimeout(()=>s.remove(),1000);}}
-function partyPopperBurst(){for(let i=0;i<40;i++){let p=document.createElement("div");p.classList.add("popper-piece");p.style.setProperty('--x',(Math.random()-0.5)*300+"px");p.style.setProperty('--y',(Math.random()-0.5)*300+"px");p.style.left="50%";p.style.top="50%";p.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;document.body.appendChild(p);setTimeout(()=>p.remove(),1000); }}
+function partyPopperBurst(){for(let i=0;i<40;i++){let p=document.createElement("div");p.classList.add("popper-piece");p.style.setProperty('--x',(Math.random()-0.5)*300+"px");p.style.setProperty('--y',(Math.random()-0.5)*300+"px");p.style.left="50%";p.style.top="50%";p.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;document.body.appendChild(p);setTimeout(()=>p.remove(),1000);}}
 
 let balloonCount=8, poppedCount=0, balloonTimeout, gameEnded=false;
 startBtn.addEventListener("click",()=>{
@@ -216,10 +233,7 @@ function createBalloon(i){
         if(balloonGame.children.length === 0 && !gameEnded) endBalloonGame();
     });
 
-    setTimeout(()=>{
-        if(document.body.contains(b)) b.remove(); 
-        if(balloonGame.children.length === 0 && !gameEnded) endBalloonGame();
-    }, duration*1000);
+    setTimeout(()=>{ if(document.body.contains(b)) b.remove(); if(balloonGame.children.length === 0 && !gameEnded) endBalloonGame(); }, duration*1000);
 }
 
 function updateCounter(){ balloonCounter.textContent=`Popped: ${poppedCount}/${balloonCount}`; }
