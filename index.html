@@ -2,25 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 <title>From Malhar</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+
+/* ===== GLOBAL ===== */
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    height: 100vh;
-    overflow: hidden;
     font-family: 'Poppins', sans-serif;
+
+    min-height: calc(var(--vh, 1vh) * 100);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
     background: radial-gradient(circle at top, #ffe0f0, #e0c3fc);
 }
 
 /* ===== LANDING ===== */
 .landing {
     position: fixed;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: radial-gradient(circle at top, #fdfbfb, #ebedee);
     display: flex;
     justify-content: center;
@@ -67,27 +81,25 @@ body {
 }
 
 @keyframes floatOrb {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
+    from { transform: translateY(120%); }
+    to { transform: translateY(-20%); }
 }
 
-/* ===== MESSAGE (FIXED CENTERING) ===== */
+/* ===== MESSAGE ===== */
 .message {
-    position: absolute;
+    position: relative;
     width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
+    max-width: 500px;
     text-align: center;
     opacity: 0;
-    padding: 0 20px;
-    box-sizing: border-box;
+    padding: 0 16px;
+    transform: scale(0.95);
     transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .show {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
 }
 
 /* ===== TEXT STACK ===== */
@@ -99,33 +111,28 @@ body {
     min-height: 140px;
 }
 
-/* Title (RESPONSIVE) */
 .message h1 {
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(36px, 8vw, 70px);
+    font-size: clamp(28px, 7vw, 60px);
     color: #ff4da6;
     text-shadow: 0 0 20px rgba(255, 77, 166, 0.4);
 }
 
-/* Lines */
 .message p {
-    font-size: clamp(14px, 4vw, 18px);
+    font-size: clamp(13px, 3.8vw, 17px);
     color: #555;
     margin: 0;
     max-width: 90%;
 }
 
-/* Reserve space */
 #line1, #line2 {
     min-height: 22px;
 }
 
-/* Fade lines */
 .fade-line {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 1s ease, transform 1s ease;
 }
 
 .fade-in {
@@ -145,20 +152,24 @@ body {
     50% { opacity: 0; }
 }
 
-/* Confetti */
+/* ===== CONFETTI (FIXED) ===== */
 .confetti {
-    position: absolute;
-    animation: fall linear infinite;
+    position: fixed;
+    top: -10px;
+    animation: fall linear forwards;
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(360deg);
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
         opacity: 0;
     }
 }
 
-/* Sparkles */
+/* Sparkle */
 .sparkle {
     position: absolute;
     width: 3px;
@@ -187,6 +198,15 @@ body {
         opacity: 0;
     }
 }
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+    .orb {
+        filter: blur(25px);
+        opacity: 0.3;
+    }
+}
+
 </style>
 </head>
 
@@ -205,6 +225,18 @@ body {
 </div>
 
 <script>
+
+/* ===== FIX MOBILE HEIGHT ===== */
+function setRealHeight() {
+    document.documentElement.style.setProperty(
+        '--vh',
+        window.innerHeight * 0.01 + 'px'
+    );
+}
+setRealHeight();
+window.addEventListener('resize', setRealHeight);
+
+/* ===== ELEMENTS ===== */
 const landing = document.getElementById("landing");
 const message = document.getElementById("message");
 const title = document.getElementById("title");
@@ -217,6 +249,7 @@ createOrbs();
 
 landing.addEventListener("click", startExperience);
 
+/* ===== FLOW ===== */
 function startExperience() {
     landing.style.opacity = "0";
 
@@ -265,7 +298,7 @@ function stage4() {
     }, 6000);
 }
 
-/* Typing */
+/* ===== TYPING ===== */
 function typeText(element, text, speed, callback) {
     element.innerHTML = "";
     let i = 0;
@@ -288,7 +321,7 @@ function typeText(element, text, speed, callback) {
     type();
 }
 
-/* Orbs */
+/* ===== ORBS ===== */
 function createOrbs() {
     for (let i = 0; i < 6; i++) {
         let orb = document.createElement("div");
@@ -308,32 +341,35 @@ function createOrbs() {
     }
 }
 
-/* Confetti */
+/* ===== CONFETTI (FIXED) ===== */
 function startConfetti() {
     let interval = setInterval(() => {
         let c = document.createElement("div");
         c.classList.add("confetti");
 
         c.style.left = Math.random() * 100 + "vw";
+        c.style.animationDelay = Math.random() * 2 + "s";
+
+        let size = Math.random() * 6 + 4;
+        c.style.width = size + "px";
+        c.style.height = size + "px";
+
         c.style.backgroundColor =
             `hsl(${Math.random() * 360},100%,50%)`;
 
-        c.style.width = (Math.random() * 6 + 4) + "px";
-        c.style.height = c.style.width;
-        c.style.opacity = Math.random();
-
         c.style.animationDuration =
-            (Math.random()*3+2)+"s";
+            (Math.random()*3+3)+"s";
 
         document.body.appendChild(c);
 
-        setTimeout(()=>c.remove(),5000);
+        setTimeout(()=>c.remove(),6000);
+
     },120);
 
     setTimeout(()=>clearInterval(interval),6000);
 }
 
-/* Mini Burst */
+/* ===== MINI BURST ===== */
 function createMiniBurst(element) {
     let rect = element.getBoundingClientRect();
 
@@ -349,7 +385,7 @@ function createMiniBurst(element) {
     }
 }
 
-/* Popper */
+/* ===== POPPER ===== */
 function partyPopperBurst() {
     for (let i = 0; i < 40; i++) {
         let p = document.createElement("div");
@@ -367,6 +403,7 @@ function partyPopperBurst() {
         setTimeout(()=>p.remove(),1000);
     }
 }
+
 </script>
 
 </body>
